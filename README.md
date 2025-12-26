@@ -7,7 +7,7 @@ This project is dedicated to the implementation of a functioning system for **pu
 ## Web application for buying tickets
 
 1. **Frontend**  
-   - Built with **React JS** and **CSS**.  
+   - Built with **React JS, TypeScript, Tailwind CSS and Ant Design**.  
    - Features include:
      - Displaying a list of events with general info.  
      - Choosing an event from the list.  
@@ -33,6 +33,6 @@ This project is dedicated to the implementation of a functioning system for **pu
 ---
 
 ## Tech Stack
-**Frontend:** React JS, CSS  
+**Frontend:** React JS, TypeScript, Tailwind CSS, Ant Design  
 **Backend:** Java, ZXing, PostgreSQL  
 **Mobile App:** React Native
