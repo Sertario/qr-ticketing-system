@@ -1,6 +1,6 @@
 import { Redirect, Slot } from 'expo-router'
 import { useContext } from 'react'
-import { AuthContext } from '../auth-context'
+import { AuthContext } from '../utils/auth-context'
 
 const AppLayout: React.FC = () => {
   const { isLoggedIn } = useContext(AuthContext)
