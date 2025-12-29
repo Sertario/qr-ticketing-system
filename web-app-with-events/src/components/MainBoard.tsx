@@ -7,12 +7,12 @@ const { Header, Content, Footer } = Layout
 const items = [
   {
     key: 0,
-    label: "Current events"
+    label: 'Actual events',
   },
   {
     key: 1,
-    label: "Previous events"
-  }
+    label: 'Previous events',
+  },
 ]
 
 const MainBoard: React.FC = () => {
@@ -31,9 +31,7 @@ const MainBoard: React.FC = () => {
       <Content className="my-5">
         <Events />
       </Content>
-      <Footer>
-
-      </Footer>
+      <Footer></Footer>
     </Layout>
   )
 }

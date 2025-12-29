@@ -1,80 +1,8 @@
-import { Flex, Card, Button } from 'antd'
-import React from 'react'
+import { Flex, Card, Button, Input } from 'antd'
+import React, { type ChangeEvent } from 'react'
+import { events } from '../data/events'
 
-const events = [
-  {
-    title: 'Event 1',
-    shortDescription: 'short 1',
-    fullDescription: `Lorem ipsum dolor sit amet,consectetur 
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore 
-            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-            exercitation ullamco laboris nisi ut aliquip ex ea commodo 
-            consequat. Duis aute irure dolor in reprehenderit in voluptate 
-            velit esse cillum dolore eu fugiat nulla pariatur. Excepteur 
-            sint occaecat cupidatat non proident, sunt in culpa qui officia 
-            deserunt mollit anim id est laborum.`,
-  },
-  {
-    title: 'Event 2',
-    shortDescription: 'short 2',
-    fullDescription: `Lorem ipsum dolor sit amet,consectetur 
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore 
-            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-            exercitation ullamco laboris nisi ut aliquip ex ea commodo 
-            consequat. Duis aute irure dolor in reprehenderit in voluptate 
-            velit esse cillum dolore eu fugiat nulla pariatur. Excepteur 
-            sint occaecat cupidatat non proident, sunt in culpa qui officia 
-            deserunt mollit anim id est laborum.`,
-  },
-  {
-    title: 'Event 3',
-    shortDescription: 'short 3',
-    fullDescription: `Lorem ipsum dolor sit amet,consectetur 
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore 
-            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-            exercitation ullamco laboris nisi ut aliquip ex ea commodo 
-            consequat. Duis aute irure dolor in reprehenderit in voluptate 
-            velit esse cillum dolore eu fugiat nulla pariatur. Excepteur 
-            sint occaecat cupidatat non proident, sunt in culpa qui officia 
-            deserunt mollit anim id est laborum.`,
-  },
-  {
-    title: 'Event 4',
-    shortDescription: 'short 4',
-    fullDescription: `Lorem ipsum dolor sit amet,consectetur 
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore 
-            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-            exercitation ullamco laboris nisi ut aliquip ex ea commodo 
-            consequat. Duis aute irure dolor in reprehenderit in voluptate 
-            velit esse cillum dolore eu fugiat nulla pariatur. Excepteur 
-            sint occaecat cupidatat non proident, sunt in culpa qui officia 
-            deserunt mollit anim id est laborum.`,
-  },
-  {
-    title: 'Event 5',
-    shortDescription: 'short 5',
-    fullDescription: `Lorem ipsum dolor sit amet,consectetur 
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore 
-            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-            exercitation ullamco laboris nisi ut aliquip ex ea commodo 
-            consequat. Duis aute irure dolor in reprehenderit in voluptate 
-            velit esse cillum dolore eu fugiat nulla pariatur. Excepteur 
-            sint occaecat cupidatat non proident, sunt in culpa qui officia 
-            deserunt mollit anim id est laborum.`,
-  },
-  {
-    title: 'Event 6',
-    shortDescription: 'short 6',
-    fullDescription: `Lorem ipsum dolor sit amet,consectetur 
-            adipiscing elit, sed do eiusmod tempor incididunt ut labore 
-            et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud 
-            exercitation ullamco laboris nisi ut aliquip ex ea commodo 
-            consequat. Duis aute irure dolor in reprehenderit in voluptate 
-            velit esse cillum dolore eu fugiat nulla pariatur. Excepteur 
-            sint occaecat cupidatat non proident, sunt in culpa qui officia 
-            deserunt mollit anim id est laborum.`,
-  },
-]
+const { Search } = Input
 
 const tabList = [
   {
@@ -89,37 +17,63 @@ const tabList = [
 
 const Events: React.FC = () => {
   const [activeTabKey, setActiveTabKey] = React.useState<{ [key: string]: string }>({})
+  const [query, setQuery] = React.useState('')
+  const [currentEvents, setCurrentEvents] = React.useState(events)
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value)
+  }
 
   const onTabChange = (tabKey: string, eventKey: string) => {
     setActiveTabKey(prev => ({ ...prev, [eventKey]: tabKey }))
   }
 
-  const getCurrentTub = (title: string) => {
+  const getCurrentTab = (title: string) => {
     return activeTabKey[title] || 'short'
   }
 
+  const filterEvents = () => {
+    const filtered = events.filter(event =>
+      event.title
+        .split(' ')
+        .some(word => word.toLowerCase().startsWith(query.toLowerCase())),
+    )
+    setCurrentEvents(filtered)
+  }
+
   return (
-    <Flex wrap gap="large" justify="center">
-      {events.map(event => {
-        const currentTab = getCurrentTub(event.title)
-        
-        return (
-          <Card
-            key={event.title}
-            className="w-100"
-            title={event.title}
-            extra={<Button type='primary'>Get QR</Button>}
-            tabList={tabList}
-            activeTabKey={activeTabKey[event.title]}
-            onTabChange={tabKey => onTabChange(tabKey, event.title)}
-          >
-            {currentTab === 'short'
-              ? event.shortDescription
-              : event.fullDescription}
-          </Card>
-        )
-      })}
-    </Flex>
+    <>
+      <div className="pb-5 px-100">
+        <Search
+          size="large"
+          placeholder="Search"
+          onChange={handleChange}
+          value={query}
+          onSearch={filterEvents}
+          onPressEnter={filterEvents}
+        />
+      </div>
+
+      <Flex wrap gap={32} justify="center">
+        {currentEvents.map(event => {
+          const currentTab = getCurrentTab(event.title)
+
+          return (
+            <Card
+              key={event.id}
+              className="w-100"
+              title={event.title}
+              extra={<Button type="primary">Get QR</Button>}
+              tabList={tabList}
+              activeTabKey={activeTabKey[event.title]}
+              onTabChange={tabKey => onTabChange(tabKey, event.title)}
+            >
+              {currentTab === 'short' ? event.shortDescription : event.fullDescription}
+            </Card>
+          )
+        })}
+      </Flex>
+    </>
   )
 }
 
