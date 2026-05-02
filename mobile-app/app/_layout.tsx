@@ -1,6 +1,6 @@
 import { Slot } from 'expo-router'
 import { useState } from 'react'
-import { AuthContext } from './utils/auth-context'
+import { AuthContext } from '../utils/auth-context'
 
 const RootLayout: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)

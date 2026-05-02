@@ -1,11 +1,10 @@
 import { Redirect, Slot } from 'expo-router'
-import { useContext } from 'react'
-import { AuthContext } from '../utils/auth-context'
+import { useAuth } from '../../utils/auth-context'
 
 const AuthLayout: React.FC = () => {
-  const { isLoggedIn } = useContext(AuthContext)
+  const { isLoggedIn } = useAuth()
 
-  if (isLoggedIn) return <Redirect href="/(app)/home" />
+  if (isLoggedIn) return <Redirect href="/(tabs)" />
 
   return <Slot />
 }

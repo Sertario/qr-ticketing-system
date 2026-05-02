@@ -1,15 +1,8 @@
-import { Text, View } from 'react-native'
+import { useAuth } from '@/utils/auth-context'
+import { Redirect } from 'expo-router'
 
 export default function Index() {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <Text></Text>
-    </View>
-  )
+  const { isLoggedIn } = useAuth()
+
+  return isLoggedIn ? <Redirect href="/(tabs)" /> : <Redirect href="/(auth)/login" />
 }
