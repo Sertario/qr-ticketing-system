@@ -1,16 +1,16 @@
+import { Button } from '@/components/Button'
+import { Input } from '@/components/Input'
+import { Typography } from '@/components/Typography'
+import { useRouter } from 'expo-router'
 import { useState } from 'react'
 import {
   Keyboard,
   Pressable,
   StyleSheet,
-  Text,
-  TextInput,
   TouchableWithoutFeedback,
   View,
 } from 'react-native'
 import { useAuth } from '../../utils/auth-context'
-import { Colors } from '@/constants/Colors'
-import { useRouter } from 'expo-router'
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('')
@@ -31,33 +31,28 @@ export default function LoginScreen() {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
-        <Text style={styles.title}>Welcome! Please, sign in or create an account</Text>
-        <TextInput
-          style={styles.input}
+        <Typography variant="title">
+          Welcome! Please, sign in or create an account
+        </Typography>
+        <Input
           placeholder="Email"
           keyboardType="email-address"
           autoCapitalize="none"
           value={email}
           onChangeText={setEmail}
         />
-        <TextInput
-          style={styles.input}
+        <Input
           placeholder="Password"
           autoCapitalize="none"
           secureTextEntry={true}
           value={password}
           onChangeText={setPassword}
         />
-        <Pressable
-          style={({ pressed }) => [styles.button, pressed && styles.buttonPressed]}
-          onPress={handleLogin}
-        >
-          <Text style={styles.buttonText}>Sign in</Text>
-        </Pressable>
+        <Button onPress={handleLogin} text="Sign in" />
         <View style={styles.footer}>
-          <Text style={styles.footerText}>Do not have an account?</Text>
+          <Typography variant="small">Do not have an account?</Typography>
           <Pressable onPress={handleRegister}>
-            <Text style={styles.linkText}>Register</Text>
+            <Typography variant="link">Register</Typography>
           </Pressable>
         </View>
       </View>
@@ -73,52 +68,10 @@ const styles = StyleSheet.create({
     gap: 20,
     paddingHorizontal: 30,
   },
-  title: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    color: 'black',
-    textAlign: 'center',
-    marginBottom: 10,
-  },
-  input: {
-    width: '100%',
-    height: 50,
-    borderWidth: 1,
-    borderColor: Colors.gray,
-    borderRadius: 8,
-    fontSize: 16,
-    fontWeight: '400',
-    paddingHorizontal: 15,
-  },
-  button: {
-    width: '60%',
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: Colors.blue,
-    borderRadius: 26,
-  },
-  buttonPressed: {
-    backgroundColor: Colors.sky,
-  },
-  buttonText: {
-    fontSize: 18,
-    color: Colors.white,
-    fontWeight: '600',
-  },
   footer: {
     marginTop: 20,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
-  },
-  footerText: {
-    fontSize: 14,
-    color: Colors.gray,
-  },
-  linkText: {
-    fontSize: 14,
-    color: Colors.blue,
-    fontWeight: '600',
   },
 })
