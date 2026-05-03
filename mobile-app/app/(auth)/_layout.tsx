@@ -1,12 +1,25 @@
-import { Redirect, Slot } from 'expo-router'
+import { Redirect, Stack } from 'expo-router'
 import { useAuth } from '../../utils/auth-context'
 
-const AuthLayout: React.FC = () => {
+export default function AuthLayout() {
   const { isLoggedIn } = useAuth()
 
   if (isLoggedIn) return <Redirect href="/(tabs)" />
 
-  return <Slot />
+  return (
+    <Stack screenOptions={{ headerShown: true }}>
+      <Stack.Screen
+        name="login"
+        options={{
+          title: 'Login',
+        }}
+      />
+      <Stack.Screen
+        name="register"
+        options={{
+          title: 'Register',
+        }}
+      />
+    </Stack>
+  )
 }
-
-export default AuthLayout
