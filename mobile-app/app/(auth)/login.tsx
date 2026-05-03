@@ -44,6 +44,7 @@ export default function LoginScreen() {
           style={styles.input}
           placeholder="Password"
           autoCapitalize="none"
+          secureTextEntry={true}
           value={password}
           onChangeText={setPassword}
         />
