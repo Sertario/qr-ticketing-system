@@ -15,8 +15,9 @@ This project is dedicated to the implementation of a functioning system for **pu
      - Downloading the generated QR-ticket.
 
 2. **Backend**  
-   - Implemented in **Java**.  
+   - Implemented in **Spring Boot (Java)**.  
    - Responsible for:
+     - Employee authentication using **Spring Security**
      - Generating **QR codes** using the **ZXing (Zebra Crossing)** library.  
      - Saving them to a **PostgreSQL** database associated with the user's email.
 
@@ -34,5 +35,5 @@ This project is dedicated to the implementation of a functioning system for **pu
 
 ## Tech Stack
 **Frontend:** React JS, TypeScript, Tailwind CSS, Ant Design  
-**Backend:** Java, ZXing, PostgreSQL  
+**Backend:** Java, Spring Boot (Spring Data JPA, Spring Security), ZXing, PostgreSQL  
 **Mobile App:** React Native

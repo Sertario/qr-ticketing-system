@@ -1,4 +1,4 @@
-import { Flex, Card, Button, Input } from 'antd'
+import { Card, Button, Input, Row, Col } from 'antd'
 import React, { type ChangeEvent } from 'react'
 import { events } from '../data/events'
 
@@ -43,7 +43,7 @@ const Events: React.FC = () => {
 
   return (
     <>
-      <div className="pb-5 px-100">
+      <div className="pb-5 md:pb-10 px-10 md:px-15 lg:px-45">
         <Search
           size="large"
           placeholder="Search"
@@ -54,25 +54,26 @@ const Events: React.FC = () => {
         />
       </div>
 
-      <Flex wrap gap={32} justify="center">
+      <Row gutter={[32, 32]}>
         {currentEvents.map(event => {
           const currentTab = getCurrentTab(event.title)
 
           return (
-            <Card
-              key={event.id}
-              className="w-100"
-              title={event.title}
-              extra={<Button type="primary">Get QR</Button>}
-              tabList={tabList}
-              activeTabKey={activeTabKey[event.title]}
-              onTabChange={tabKey => onTabChange(tabKey, event.title)}
-            >
-              {currentTab === 'short' ? event.shortDescription : event.fullDescription}
-            </Card>
+            <Col key={event.id} xs={24} md={12} lg={8}>
+              <Card
+                className="h-full"
+                title={event.title}
+                extra={<Button type="primary">Get QR</Button>}
+                tabList={tabList}
+                activeTabKey={activeTabKey[event.title]}
+                onTabChange={tabKey => onTabChange(tabKey, event.title)}
+              >
+                {currentTab === 'short' ? event.shortDescription : event.fullDescription}
+              </Card>
+            </Col>
           )
         })}
-      </Flex>
+      </Row>
     </>
   )
 }
