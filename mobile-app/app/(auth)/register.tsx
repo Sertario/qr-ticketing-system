@@ -1,9 +1,11 @@
 import { Button } from '@/components/Button'
 import { Input } from '@/components/Input'
 import { Typography } from '@/components/Typography'
+import { api } from '@/utils/api'
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
 import {
+  Alert,
   Keyboard,
   Pressable,
   StyleSheet,
@@ -12,6 +14,7 @@ import {
 } from 'react-native'
 
 export default function RegisterScreen() {
+  const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -23,10 +26,18 @@ export default function RegisterScreen() {
     } else router.replace('/login')
   }
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if (password !== confirmPassword) {
-      alert('Passwords do not match!')
+      Alert.alert('Error', 'Passwords do not match!')
       return
+    }
+
+    try {
+      await api.post('/auth/register', { email, password, fullName })
+      Alert.alert('Success', 'Registered successfully! Please sign in.')
+      router.replace('/login')
+    } catch (error: any) {
+      Alert.alert('Error', error.response?.data || 'Registration failed')
     }
   }
 
@@ -34,6 +45,12 @@ export default function RegisterScreen() {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
         <Typography variant="title">Create Account</Typography>
+        <Input
+          placeholder="Full Name"
+          autoCapitalize="none"
+          value={fullName}
+          onChangeText={setFullName}
+        />
         <Input
           placeholder="Email"
           keyboardType="email-address"

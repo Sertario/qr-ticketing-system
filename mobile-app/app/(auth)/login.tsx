@@ -9,19 +9,32 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   View,
+  Alert,
 } from 'react-native'
 import { useAuth } from '../../utils/auth-context'
+import { api } from '@/utils/api'
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const { setIsLoggedIn } = useAuth()
+  const { login } = useAuth()
 
   const router = useRouter()
 
-  const handleLogin = () => {
-    // API request for login
-    // checking response
+  const handleLogin = async () => {
+    console.log('Login button pressed')
+    if (!email || !password) return
+
+    try {
+      const response = await api.post('/auth/login', { email, password })
+      const token = response.data
+
+      await login(token)
+      router.replace('/(tabs)')
+    } catch (error: any) {
+      const message = error.response?.data || 'Login failed'
+      Alert.alert('Error', message)
+    }
   }
 
   const handleRegister = () => {
