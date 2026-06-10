@@ -44,4 +44,29 @@ public class TicketService {
 
         return Base64.getEncoder().encodeToString(outputStream.toByteArray());
     }
+
+    public String scanTicket(UUID ticketId, String action) {
+        Ticket ticket = ticketRepository.findById(ticketId)
+                .orElseThrow(() -> new RuntimeException("Ticket wasn't found"));
+
+        if ("ENTRY".equalsIgnoreCase(action)) {
+            if (ticket.isInside()) {
+                throw new RuntimeException("Error: person is inside!");
+            }
+            ticket.setInside(true);
+            ticket.setUsed(true);
+        }
+
+        else if ("EXIT".equalsIgnoreCase(action)) {
+            if (!ticket.isInside()) {
+                throw new RuntimeException("Error: person left!");
+            }
+            ticket.setInside(false);
+        } else {
+            throw new RuntimeException("Invalid action. Use ENTRY or EXIT.");
+        }
+
+        ticketRepository.save(ticket);
+        return "Success: " + action + ". Ticket: " + ticketId;
+    }
 }

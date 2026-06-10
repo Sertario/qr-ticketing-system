@@ -16,4 +16,13 @@ public class TicketController {
             throws Exception {
         return ticketService.buyTicket(eventId, email);
     }
+
+    @PostMapping("/scan")
+    public String scan(@RequestParam UUID ticketId, @RequestParam String action) {
+        try {
+            return ticketService.scanTicket(ticketId, action);
+        } catch (RuntimeException e) {
+            return e.getMessage();
+        }
+    }
 }
