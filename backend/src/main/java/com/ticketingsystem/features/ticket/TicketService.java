@@ -19,7 +19,7 @@ public class TicketService {
     private final TicketRepository ticketRepository;
     private final EventRepository eventRepository;
 
-    public String buyTicket(UUID eventId, String email) throws Exception {
+    public String purchaseTicket(UUID eventId, String email) throws Exception {
         Event event = eventRepository.findById(eventId)
                 .orElseThrow(() -> new RuntimeException("Event isn't found"));
 

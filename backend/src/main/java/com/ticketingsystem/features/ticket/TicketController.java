@@ -1,5 +1,7 @@
 package com.ticketingsystem.features.ticket;
 
+import com.ticketingsystem.features.ticket.dto.PurchaseTicketRequest;
+import com.ticketingsystem.features.ticket.dto.ScanTicketRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,16 +13,16 @@ import java.util.UUID;
 public class TicketController {
     private final TicketService ticketService;
 
-    @PostMapping("/buy")
-    public String buy(@RequestParam UUID eventId, @RequestParam String email)
+    @PostMapping("/purchase")
+    public String purchase(@RequestBody PurchaseTicketRequest request)
             throws Exception {
-        return ticketService.buyTicket(eventId, email);
+        return ticketService.purchaseTicket(request.eventId(), request.email());
     }
 
     @PostMapping("/scan")
-    public String scan(@RequestParam UUID ticketId, @RequestParam String action) {
+    public String scan(@RequestBody ScanTicketRequest request) {
         try {
-            return ticketService.scanTicket(ticketId, action);
+            return ticketService.scanTicket(request.ticketId(), request.action());
         } catch (RuntimeException e) {
             return e.getMessage();
         }
