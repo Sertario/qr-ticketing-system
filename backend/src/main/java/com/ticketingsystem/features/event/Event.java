@@ -18,7 +18,13 @@ public class Event {
     private UUID id;
 
     private String title;
-    private String description;
+
+    @Column(columnDefinition = "TEXT")
+    private String shortDescription;
+
+    @Column(columnDefinition = "TEXT")
+    private String fullDescription;
+
     private LocalDateTime date;
     private String location;
 }
