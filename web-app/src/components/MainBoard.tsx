@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Layout, Menu } from 'antd'
 import Events from './Events'
 
@@ -16,6 +16,8 @@ const items = [
 ]
 
 const MainBoard: React.FC = () => {
+  const [selectedTab, setSelectedTab] = useState('0')
+
   return (
     <Layout className="min-h-screen">
       <Header className="flex justify-center bg-[#001529]" style={{ padding: 0 }}>
@@ -24,7 +26,9 @@ const MainBoard: React.FC = () => {
           <Menu
             theme="dark"
             mode="horizontal"
+            selectedKeys={[selectedTab]}
             defaultSelectedKeys={['0']}
+            onSelect={({ key }) => setSelectedTab(key)}
             items={items}
             style={{ flex: 1, minWidth: 0 }}
           />
@@ -32,7 +36,7 @@ const MainBoard: React.FC = () => {
       </Header>
 
       <Content className="p-5 md:p-10 max-w-[1400px] mx-auto w-full">
-        <Events />
+        <Events filterType={selectedTab === '0' ? 'actual' : 'previous'} />
       </Content>
       <Footer className="text-center border-t-2">
         <strong>QR-Ticketing system 2026</strong>
