@@ -22,7 +22,6 @@ export default function LoginScreen() {
   const router = useRouter()
 
   const handleLogin = async () => {
-    console.log('Login button pressed')
     if (!email || !password) return
 
     try {

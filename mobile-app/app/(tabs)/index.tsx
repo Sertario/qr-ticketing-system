@@ -51,8 +51,9 @@ const HomeScreen: React.FC = () => {
     await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
 
     try {
-      const response = await api.post('/tickets/scan', null, {
-        params: { ticketId: data, action: action },
+      const response = await api.post('/tickets/scan', {
+        ticketId: data,
+        action: action,
       })
 
       Alert.alert('Ticket verified', response.data, [
@@ -86,7 +87,9 @@ const HomeScreen: React.FC = () => {
           style={[styles.actionButton, action === 'ENTRY' && styles.activeAction]}
           onPress={() => setAction('ENTRY')}
         >
-          <Text style={[styles.actionText, action === 'ENTRY' && { color: Colors.white }]}>
+          <Text
+            style={[styles.actionText, action === 'ENTRY' && { color: Colors.white }]}
+          >
             ENTRY
           </Text>
         </TouchableOpacity>
